@@ -40,23 +40,50 @@ module.exports = {
           "ts-loader",
         ],
       },
+      {
+        test: /\.less$/,
+        use: [
+          "style-loader",
+          "css-loader",
+
+          // 引入postcss
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env",
+                    {
+                      browsers: "last 2 versions",
+                    },
+                  ],
+                ],
+              },
+            },
+          },
+          "less-loader",
+        ],
+      },
     ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: "./src/index.html",
     }),
   ],
 
   //解析模块
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".js", "less"],
   },
 
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 9000,
+    hot: true,
+    clientLogLevel: "none",
   },
 }
