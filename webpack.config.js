@@ -11,6 +11,7 @@ module.exports = {
     //webpack自动生成的代码中不使用箭头函数，老旧浏览器不识别
     environment: {
       arrowFunction: false,
+      const: false,
     },
   },
 
@@ -45,7 +46,6 @@ module.exports = {
         use: [
           "style-loader",
           "css-loader",
-
           // 引入postcss
           {
             loader: "postcss-loader",
@@ -83,7 +83,6 @@ module.exports = {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 9000,
-    hot: true,
     clientLogLevel: "none",
   },
 }
