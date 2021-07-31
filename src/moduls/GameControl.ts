@@ -29,17 +29,16 @@ class GameControl {
     this.direction = e.key
   }
 
-  /*
-    根据direction来改变蛇的位置
-    向上 top 减少
-    向下 top 增加
-    向左 left 减少
-    向右 left 增加
-  */
   run() {
     let x = this.snake.x
     let y = this.snake.y
-
+    /*
+      根据direction来改变蛇的位置
+      向上 top 减少
+      向下 top 增加
+      向左 left 减少
+      向右 left 增加
+    */
     switch (this.direction) {
       case "ArrowUp":
       case "Up":
@@ -59,11 +58,29 @@ class GameControl {
         break
     }
 
-    this.snake.x = x
-    this.snake.y = y
+    // 检测得分
+    this.checkEat(x, y)
 
+    //检测碰撞
+    try {
+      this.snake.x = x
+      this.snake.y = y
+    } catch (e) {
+      alert(e.message + " GAME OVER!")
+      this.isLive = false
+    }
+
+    //检测游戏是否结束
     this.isLive &&
       setTimeout(this.run.bind(this), 300 - (this.scorePanel.level - 1) * 30)
+  }
+
+  checkEat(x: number, y: number) {
+    if (x === this.food.x && y === this.food.y) {
+      this.scorePanel.addScore()
+      this.food.change()
+      this.snake.addBody()
+    }
   }
 }
 
